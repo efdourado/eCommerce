@@ -1,8 +1,8 @@
 import db from '../database';
 
 export interface IProduct {
-  id: number;
-  name: string;
+  product_id: number;
+  product_name: string;
   price: string;
   qty_in_stock: number;
   category_name: string;
@@ -12,17 +12,7 @@ export interface IProduct {
 class ListProductsService {
   public async execute(): Promise<IProduct[]> {
     const queryResult = await db.query(
-      `SELECT
-          p.id,
-          p.name,
-          p.price,
-          p.qty_in_stock,
-          c.name as category_name,
-          s.name as supplier_name
-       FROM product p
-       JOIN category c ON p.category_id = c.id
-       JOIN supplier s ON p.supplier_id = s.id
-       ORDER BY p.name ASC`
+      'SELECT product_id, product_name, price, qty_in_stock, category_name, supplier_name FROM vw_detailed_products ORDER BY product_name ASC'
     );
 
     return queryResult.rows;
